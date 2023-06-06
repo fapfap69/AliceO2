@@ -57,6 +57,8 @@ bool Param::fgMapPad[160][144][7];
 
 float Param::fgCellX = 0.;
 float Param::fgCellY = 0.;
+float Param::fgHalfCellX = 0.;
+float Param::fgHalfCellY = 0.;
 
 float Param::fgPcX = 0;
 float Param::fgPcY = 0;
@@ -116,6 +118,8 @@ Param::Param(bool noGeo) : mX(0), mY(0), mRefIdx(1.28947), mPhotEMean(6.675), mT
 
   fgCellX = 0.8;
   fgCellY = 0.84;
+  fgHalfCellX = fgCellX * 0.5;
+  fgHalfCellY = fgCellY * 0.5;
 
   if (!noGeo == kTRUE) {
     TGeoVolume* pCellVol = gGeoManager->GetVolume("Hcel");

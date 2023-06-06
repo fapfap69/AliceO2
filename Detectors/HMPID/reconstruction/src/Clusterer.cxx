@@ -43,27 +43,39 @@ void Clusterer::Dig2Clu(gsl::span<const o2::hmpid::Digit> digs, std::vector<o2::
 
   int pUsedDig = -1;
   int padChX = 0, padChY = 0, module = 0;
+  std::vector<bool> bUseIt;
 
   for (int iCh = Param::kMinCh; iCh <= Param::kMaxCh; iCh++) { // chambers loop
     padMap = (Float_t)-1;                                      // reset map to -1 (means no digit for this pad)
     for (size_t iDig = 0; iDig < digs.size(); iDig++) {
       o2::hmpid::Digit::pad2Absolute(digs[iDig].getPadID(), &module, &padChX, &padChY);
       if (module == iCh) {
+        if ((pUsedDig = UseDig(padChX, padChY, padMap)) == -1) {
+          bUseIt.push_back(false);
+        } else {
+          bUseIt.push_back(true);
+        }
         padMap(padChX, padChY) = iDig; // fill the map for the given chamber, (padx,pady) cell takes digit index
+      } else {
+        bUseIt.push_back(false);
       }
     } // digits loop for current chamber
 
     for (size_t iDig = 0; iDig < digs.size(); iDig++) { // digits loop for current chamber
-      o2::hmpid::Digit::pad2Absolute(digs[iDig].getPadID(), &module, &padChX, &padChY);
-      if (module != iCh || (pUsedDig = UseDig(padChX, padChY, padMap)) == -1) { // this digit is from other module or already taken in FormClu(), go after next digit
+      if (!bUseIt.at(iDig)) {
         continue;
       }
+ //     o2::hmpid::Digit::pad2Absolute(digs[iDig].getPadID(), &module, &padChX, &padChY);
+ //     if (module != iCh || (pUsedDig = UseDig(padChX, padChY, padMap)) == -1) { // this digit is from other module or already taken in FormClu(), go after next digit
+ //       continue;
+ //     }
       Cluster clu;
       clu.setCh(iCh);
       FormClu(clu, pUsedDig, digs, padMap); // form cluster starting from this digit by recursion
       clu.solve(&clus, pUserCut, isUnfold); // solve this cluster and add all unfolded clusters to provided list
     }                                       // digits loop for current chamber
-  }                                         // chambers loop
+    bUseIt.clear();
+  }   // chambers loop
   return;
 } // Dig2Clu()
 

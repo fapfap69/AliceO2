@@ -84,6 +84,8 @@ class Param
   static float r2d() { return 57.2957795; }
   static float sizePadX() { return fgCellX; } // pad size x, [cm]
   static float sizePadY() { return fgCellY; } // pad size y, [cm]
+  static float sizeHalfPadX() { return fgHalfCellX; } // half pad size x, [cm]
+  static float sizeHalfPadY() { return fgHalfCellY; } // half pad size y, [cm]
 
   static float sizePcX() { return fgPcX; }                  // PC size x
   static float sizePcY() { return fgPcY; }                  // PC size y
@@ -327,7 +329,7 @@ class Param
   static Int_t fgThreshold;   // sigma Cut
   static bool fgInstanceType; // kTRUE if from geomatry kFALSE if from ideal geometry
 
-  static float fgCellX, fgCellY, fgPcX, fgPcY, fgAllX, fgAllY; // definition of HMPID geometric parameters
+  static float fgCellX, fgCellY, fgHalfCellX, fgHalfCellY, fgPcX, fgPcY, fgAllX, fgAllY; // definition of HMPID geometric parameters
   Param(bool noGeo);                                           // default ctor is protected to enforce it to be singleton
 
   static Param* fgInstance; // static pointer  to instance of Param singleton
