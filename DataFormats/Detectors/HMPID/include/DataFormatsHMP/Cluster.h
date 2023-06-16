@@ -16,6 +16,8 @@
 #include "CommonDataFormat/RangeReference.h"
 #include "DataFormatsHMP/Digit.h"
 #include "HMPIDBase/Param.h"
+#include <array>
+#include <vector>
 
 namespace o2
 {
@@ -23,6 +25,20 @@ namespace hmpid
 {
 /// \class Cluster
 /// \brief HMPID cluster implementation
+
+typedef struct {
+    uint8_t ch;
+    uint8_t x;
+    uint8_t y;
+} DigCoord;
+
+const uint8_t numPadX = Param::kMaxPcx + 1;
+const uint8_t numPadY = Param::kMaxPcy + 1;
+const uint8_t numChamber = Param::kMaxCh + 1;
+
+typedef std::array<std::array<std::array<size_t, numChamber>, numPadX>, numPadY> mapIndex_t;
+typedef std::array<std::array<std::array<int16_t, numChamber>, numPadX>, numPadY> mapCharge_t;
+
 class Cluster
 {
  public:
@@ -51,11 +67,14 @@ class Cluster
   void coG();                                                                            // calculates center of gravity
   void corrSin();                                                                        // sinoidal correction
   void digAdd(const o2::hmpid::Digit* pDig);                                             // add new digit to the cluster
+  void digAdd(const Digit* pDig, int16_t x, int16_t y)
+
   const o2::hmpid::Digit* dig(int i) const { return mDigs[i]; }                          // pointer to i-th digi
   inline bool isInPc();                                                                  // check if is in the current PC
   void reset();                                                                          // cleans the cluster
   // void setClusterParams(float xL, float yL, int iCh); //Set AliCluster3D part
   int solve(std::vector<o2::hmpid::Cluster>* pCluLst, float* pSigmaCut, bool isUnfold); // solve cluster: MINUIT fit or CoG
+  int solve2(std::vector<o2::hmpid::Cluster>* pCluLst, float* pSigmaCut, bool isTryUnfold, const mapCharge_t &pQMap, const std::vector<DigCoord> &theClusterCoord);
   // Getters
   int box() { return mBox; }     // Dimension of the cluster
   int ch() { return mCh; }       // chamber number
