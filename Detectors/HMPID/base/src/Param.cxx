@@ -37,11 +37,13 @@ ClassImp(o2::hmpid::Param);
 // Mathieson constant definition
 const double Param::fgkD = 0.222500; // ANODE-CATHODE distance 0.445/2
 // K3 = 0.66 along the wires (anode-cathode/wire pitch=0.5625)
+const double Param::fgkK3x = 0.66;
 const double Param::fgkSqrtK3x = TMath::Sqrt(0.66);
 const double Param::fgkK2x = TMath::PiOver2() * (1 - 0.5 * fgkSqrtK3x);
 const double Param::fgkK1x = 0.25 * fgkK2x * fgkSqrtK3x / TMath::ATan(fgkSqrtK3x);
 const double Param::fgkK4x = fgkK1x / (fgkK2x * fgkSqrtK3x);
 // K3 = 0.87 along the wires (anode-cathode/wire pitch=0.5625)
+const double Param::fgkK3y = 0.87;
 const double Param::fgkSqrtK3y = TMath::Sqrt(0.87);
 const double Param::fgkK2y = TMath::PiOver2() * (1 - 0.5 * fgkSqrtK3y);
 const double Param::fgkK1y = 0.25 * fgkK2y * fgkSqrtK3y / TMath::ATan(fgkSqrtK3y);

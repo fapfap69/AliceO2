@@ -1,4 +1,4 @@
-// Copyright 2019-2020 CERN and copyright holders of ALICE O2.
+// Copyright 2020-2022 CERN and copyright holders of ALICE O2.
 // See https://alice-o2.web.cern.ch/copyright for details of the copyright holders.
 // All rights not expressly granted are reserved.
 //
@@ -374,7 +374,7 @@ double Digit::mathiesonX(double x)
   double lambda = x / o2::hmpid::Param::pitchAnodeCathode();
   double tanh_v = tanh(o2::hmpid::Param::k2x() * lambda);
   double a = 1 - tanh_v * tanh_v;
-  double b = 1 + o2::hmpid::Param::sqrtK3x() * o2::hmpid::Param::sqrtK3x() * tanh_v * tanh_v;
+  double b = 1 + o2::hmpid::Param::K3x() * tanh_v * tanh_v;
   double mathi = o2::hmpid::Param::k1x() * a / b;
   return mathi;
 }
@@ -388,7 +388,7 @@ double Digit::mathiesonY(double y)
   double lambda = y / o2::hmpid::Param::pitchAnodeCathode();
   double tanh_v = tanh(o2::hmpid::Param::k2y() * lambda);
   double a = 1 - tanh_v * tanh_v;
-  double b = 1 + o2::hmpid::Param::sqrtK3y() * o2::hmpid::Param::sqrtK3y() * tanh_v * tanh_v;
+  double b = 1 + o2::hmpid::Param::K3y() * tanh_v * tanh_v;
   double mathi = o2::hmpid::Param::k1y() * a / b;
   return mathi;
 }

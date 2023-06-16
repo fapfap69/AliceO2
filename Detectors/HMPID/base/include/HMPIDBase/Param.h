@@ -323,6 +323,7 @@ class Param
 
   static const double fgkSqrtK3x, fgkK2x, fgkK1x, fgkK4x;
   static const double fgkSqrtK3y, fgkK2y, fgkK1y, fgkK4y;
+  static const double fgkK3y, fgkK3x;
   //
 
   static Int_t fgNSigmas;     // sigma Cut
