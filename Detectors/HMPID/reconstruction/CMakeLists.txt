@@ -12,6 +12,7 @@
 o2_add_library(HMPIDReconstruction
                TARGETVARNAME targetName
                SOURCES src/Clusterer.cxx
+                      src/Clusterer2.cxx
                        src/HmpidDecoder2.cxx
                        src/HmpidEquipment.cxx
                        src/CTFHelper.cxx
@@ -24,6 +25,7 @@ o2_add_library(HMPIDReconstruction
 
 o2_target_root_dictionary(HMPIDReconstruction
                           HEADERS include/HMPIDReconstruction/Clusterer.h
+                                  include/HMPIDReconstruction/Clusterer2.h
                                   include/HMPIDReconstruction/HmpidDecoder2.h
                                   include/HMPIDReconstruction/Recon.h
                                   include/HMPIDReconstruction/HmpidEquipment.h)
