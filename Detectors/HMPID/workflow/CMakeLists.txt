@@ -91,9 +91,9 @@ o2_add_executable(digits-to-clusters-workflow
                   SOURCES src/digits-to-clusters-workflow.cxx
                   PUBLIC_LINK_LIBRARIES O2::HMPIDWorkflow)
 
-o2_add_executable(digits-to-clusters2-workflow
+o2_add_executable(digits-to-clustersnew-workflow
                   COMPONENT_NAME hmpid
-                  SOURCES src/digits-to-clusters2-workflow.cxx
+                  SOURCES src/digits-to-clustersnew-workflow.cxx
                   PUBLIC_LINK_LIBRARIES O2::HMPIDWorkflow)
 
 o2_add_executable(digits-writer-workflow

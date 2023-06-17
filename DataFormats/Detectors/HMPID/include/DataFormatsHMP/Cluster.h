@@ -27,14 +27,14 @@ namespace hmpid
 /// \brief HMPID cluster implementation
 
 typedef struct {
-    uint8_t ch;
-    uint8_t x;
-    uint8_t y;
+    int ch;
+    int x;
+    int y;
 } DigCoord;
 
-const uint8_t numPadX = Param::kMaxPcx + 1;
-const uint8_t numPadY = Param::kMaxPcy + 1;
-const uint8_t numChamber = Param::kMaxCh + 1;
+const uint16_t numPadX = Param::kMaxPcx + 1;
+const uint16_t numPadY = Param::kMaxPcy + 1;
+const uint16_t numChamber = Param::kMaxCh + 1;
 
 typedef std::array<std::array<std::array<size_t, numChamber>, numPadX>, numPadY> mapIndex_t;
 typedef std::array<std::array<std::array<int16_t, numChamber>, numPadX>, numPadY> mapCharge_t;
@@ -65,9 +65,10 @@ class Cluster
   void print(Option_t* opt = "") const;                                                  // overloaded TObject::Print() to print cluster info
   static void fitFunc(int& iNpars, double* deriv, double& chi2, double* par, int iflag); // fit function to be used by MINUIT
   void coG();                                                                            // calculates center of gravity
+  void coG2(); 
   void corrSin();                                                                        // sinoidal correction
   void digAdd(const o2::hmpid::Digit* pDig);                                             // add new digit to the cluster
-  void digAdd(const Digit* pDig, int16_t x, int16_t y)
+  void digAdd(const Digit* pDig, int16_t x, int16_t y);
 
   const o2::hmpid::Digit* dig(int i) const { return mDigs[i]; }                          // pointer to i-th digi
   inline bool isInPc();                                                                  // check if is in the current PC
@@ -130,6 +131,11 @@ class Cluster
   double mErrY;                         // error on y postion, [cm]
   double mChi2;                         // some estimator of the fit quality
   std::vector<const o2::hmpid::Digit*> mDigs; //! list of digits forming this cluster
+
+  int mMinPadX = 999;
+  int mMinPadY = 999;
+  int mMaxPadX = -1;
+  int mMaxPadY = -1; // for box finding
 
  public:
   static bool fgDoCorrSin; // flag to switch on/off correction for Sinusoidal to cluster reco

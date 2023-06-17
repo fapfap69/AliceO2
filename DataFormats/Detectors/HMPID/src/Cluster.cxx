@@ -462,19 +462,21 @@ int Cluster::solve2(std::vector<o2::hmpid::Cluster>* pCluLst, float* pSigmaCut, 
       ) continue;
 
     if (mNlocMax < kMaxLocMax) { // this pad has Q more then any neighbour so it's local maximum
-      float xStart = o2::hmpid::Digit::lorsX(mDigs.at(iDig1).getPadID());
-      float yStart = o2::hmpid::Digit::lorsY(mDigs.at(iDig1).getPadID());
+      float xStart = o2::hmpid::Digit::lorsX(mDigs.at(iDig1)->getPadID());
+      float yStart = o2::hmpid::Digit::lorsY(mDigs.at(iDig1)->getPadID());
       float xMin = xStart - mParam->sizePadX();
       float xMax = xStart + mParam->sizePadX();
       float yMin = yStart - mParam->sizePadY();
       float yMax = yStart + mParam->sizePadY();
       ierflg = fitter->SetParameter(3 * mNlocMax, Form("x%i", mNlocMax), xStart, 0.1, xMin, xMax);      // X,Y,Q initial values of the loc max pad
       ierflg = fitter->SetParameter(3 * mNlocMax + 1, Form("y%i", mNlocMax), yStart, 0.1, yMin, yMax);  // X, Y constrained to be near the loc max
-      ierflg = fitter->SetParameter(3 * mNlocMax + 2, Form("q%i", mNlocMax), pDig1->mQ, 0.1, 0, 10000); // Q constrained to be positive
+      ierflg = fitter->SetParameter(3 * mNlocMax + 2, Form("q%i", mNlocMax), mDigs.at(iDig1)->mQ, 0.1, 0, 10000); // Q constrained to be positive
       mNlocMax++;
     } // if this pad is local maximum
+    
   }   // first digits loop
-
+  std::cout << "solve2() RawSize=" << rawSize << " locMax=" << mNlocMax << std::endl;
+  
   // Phase 2. Fit loc max number of Mathiesons or add this current cluster to the list
   // case 1 -> no loc max found
   if (mNlocMax == 0) { // case of no local maxima found: pads with same charge...

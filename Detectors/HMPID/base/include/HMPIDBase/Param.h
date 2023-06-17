@@ -290,10 +290,12 @@ class Param
   // Mathieson Getters
 
   static double pitchAnodeCathode() { return fgkD; }
+  static double K3x() { return fgkK3x; }
   static double sqrtK3x() { return fgkSqrtK3x; }
   static double k2x() { return fgkK2x; }
   static double k1x() { return fgkK1x; }
   static double k4x() { return fgkK4x; }
+  static double K3y() { return fgkK3y; }
   static double sqrtK3y() { return fgkSqrtK3y; }
   static double k2y() { return fgkK2y; }
   static double k1y() { return fgkK1y; }

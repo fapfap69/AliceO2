@@ -37,8 +37,8 @@ namespace hmpid
 class DigitsToClustersTask2 : public framework::Task
 {
  public:
-  DigitsToClustersTask() = default;
-  ~DigitsToClustersTask() override = default;
+  DigitsToClustersTask2() = default;
+  ~DigitsToClustersTask2() override = default;
   void init(framework::InitContext& ic) final;
   void run(framework::ProcessingContext& pc) final;
   void endOfStream(framework::EndOfStreamContext& ec) override;

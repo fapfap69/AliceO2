@@ -164,8 +164,8 @@ o2::framework::DataProcessorSpec
                        o2::framework::Lifetime::Timeframe);
 
   return DataProcessorSpec{
-    "HMP-Clusterization", inputs, outputs,
-    AlgorithmSpec{adaptFromTask<DigitsToClustersTask>()},
+    "HMP-ClusterizationNew", inputs, outputs,
+    AlgorithmSpec{adaptFromTask<DigitsToClustersTask2>()},
     Options{{"sigma-cut",
              VariantType::String,
              "",

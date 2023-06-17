@@ -50,7 +50,8 @@ void Clusterer2::Dig2Clu(gsl::span<const o2::hmpid::Digit> digs, std::vector<o2:
   }
   
   DigCoord localMax;
-
+  int count = 0;
+  int prev = clus.size();
   for (size_t iDigIdx = 0; iDigIdx < digs.size(); iDigIdx++) { // loop to calculate clusters
     if(pIdxMap[pDigCoord.at(iDigIdx).ch][pDigCoord.at(iDigIdx).x][pDigCoord.at(iDigIdx).y] == -1) {
       continue;
@@ -61,11 +62,14 @@ void Clusterer2::Dig2Clu(gsl::span<const o2::hmpid::Digit> digs, std::vector<o2:
     Cluster clu;
     clu.setCh(pDigCoord.at(iDigIdx).ch);
     for(int i=0; i<theCluster.size(); i++) {
-      clu.digAdd(digs.at(theCluster.at(i)), x, y);
-      theClustarCoord.push_back(pDigCoord.at(theCluster.at(i)));
+      clu.digAdd(&digs[theCluster.at(i)], pDigCoord.at(theCluster.at(i)).x, pDigCoord.at(theCluster.at(i)).y);
+      theClusterCoord.push_back(pDigCoord.at(theCluster.at(i)));
     }
-    clu.solve2(&clus, pUserCut, isUnfold, pQMap, theClustarCoord); // sol  
+    clu.solve2(&clus, pUserCut, isUnfold, pQMap, theClusterCoord); // sol  
+    count++;
   }
+  std::cout << "Dig2Clu() : digits " << digs.size() << " clusters =" << count << " prev clust=" << prev << " actual clusters=" << clus.size() << std::endl;
+
   return;
 }
 
@@ -78,7 +82,7 @@ void Clusterer2::regionGrowing(const mapCharge_t &pQMap, mapIndex_t &pIdxMap, Di
 
     // Aggiungi il punto di seme iniziale alla coda e imposta come visitato
     queue.push(seed);
-    theCluster.push_back(pIdxMap[seed.ch][seed.y][seed.x]);
+    theCluster.push_back(pIdxMap[seed.ch][seed.x][seed.y]);
     localMax = seed; // assume il massimo locale
 
     // Finchè la coda non è vuota
@@ -129,6 +133,7 @@ void Clusterer2::regionGrowing(const mapCharge_t &pQMap, mapIndex_t &pIdxMap, Di
             pIdxMap[neighborCh][neighborX][neighborY] = -1;
         }
     }
+    std::cout << "regionGrowing() : seed " << seed.ch << ":" << seed.x << "," << seed.y << " Cluster :" << theCluster.size() << std::endl;
   return;  
 
 } 
